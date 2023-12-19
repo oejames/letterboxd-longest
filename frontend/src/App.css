@@ -1,0 +1,79 @@
+.App {
+  background-color: #282c34;
+  height: 100vh;
+  overflow-y: auto;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.main {
+  display: flex;
+}
+
+.search-container {
+  padding: 20px;
+}
+
+.review-container {
+  margin-top: 20px;
+  max-width: 600px;
+  height: 70vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+p {
+  margin-bottom: 15px;
+  line-height: 1.4;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+  color: #9ab;
+}
+
+.App-header {
+  background-color: #000;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  /* justify-content: center; */
+  font-size: calc(10px + 2vmin);
+  color: white;
+  height: 10 px;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 10%;
+}
+
+header {
+  height: 100px;
+  justify-self: left;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
