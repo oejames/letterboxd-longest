@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import ReviewDisplay from './components/ReviewDisplay';
 
-import './App.css'; // Import the CSS file for styling
+import './App.css'; 
 
 function App() {
   const [query, setQuery] = useState('');
@@ -14,7 +14,7 @@ function App() {
       const response = await axios.get(`http://localhost:3001/search?query=${query}`);
       const reviewText = response.data.longestReview.review;
 
-      // Split the review text by lines
+      // splitting the review text by lines
       const paragraphs = reviewText.split('\n\n');
 
       setLongestReview(paragraphs);

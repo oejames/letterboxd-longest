@@ -49,7 +49,7 @@ const getLongestReview = async (movieUrl) => {
         let page = 1;
         let allReviews = [];
 
-        while (page < 8) {
+        while (page < 14) {
             const response = await axios.get(`${movieUrl}/by/activity/page/${page}`);
             const $ = cheerio.load(response.data);
 
