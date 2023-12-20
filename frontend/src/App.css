@@ -91,6 +91,7 @@ header  a {
 .week-reviews {
   display: flex;
   overflow-x: auto;
+  /* margin-right: 50px; */
 }
 
 .loading-home {

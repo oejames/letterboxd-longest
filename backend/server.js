@@ -50,7 +50,7 @@ const getLongestReview = async (movieUrl) => {
         let page = 1;
         let allReviews = [];
 
-        while (page < 9) {
+        while (page < 40) {
             const response = await axios.get(`${movieUrl}/by/activity/page/${page}`);
             const $ = cheerio.load(response.data);
 
@@ -148,10 +148,10 @@ let scrapedData = [];
 const scrapeAndUpdateData = async () => {
   try {
     
-        let page = 60;
+        let page = 20;
         let allReviews = [];
 
-        while (page < 61) {
+        while (page < 90) {
             const response = await axios.get(`https://letterboxd.com/reviews/popular/this/week/page/${page}`);
             const $ = cheerio.load(response.data);
 
