@@ -65,6 +65,11 @@ header {
   justify-self: left;
 }
 
+header  a {
+  color: #fff;
+  text-decoration: none;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -76,4 +81,13 @@ header {
   to {
     transform: rotate(360deg);
   }
+}
+
+.weeklong {
+  margin-left: 20px;
+  color: #fff;
+}
+
+.week-reviews {
+  /* display: flex; */
 }
