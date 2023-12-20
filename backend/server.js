@@ -50,7 +50,7 @@ const getLongestReview = async (movieUrl) => {
         let page = 1;
         let allReviews = [];
 
-        while (page < 3) {
+        while (page < 9) {
             const response = await axios.get(`${movieUrl}/by/activity/page/${page}`);
             const $ = cheerio.load(response.data);
 
@@ -124,12 +124,14 @@ const fetchFullReview = async (reviewUrl) => {
          // select all <p> elements within .review element
         const paragraphs = $('.review p').map((_, element) => $(element).text().trim()).get();
         const fullReviewText = paragraphs.join('\n\n');
-        const reviewMoviePhoto = $('.react-component.poster.film-poster.film-poster-648869.linked-film-poster img');
-        const posterUrl = reviewMoviePhoto.attr('src');
-               
+        const movieTitleElement = $('.headline-2.prettify a')
+        const movieTitle = movieTitleElement.text().trim().slice(0, movieTitleElement.text().trim().length-4);
+        console.log('movie title element: ', movieTitleElement)
+        console.log('movie title: ', movieTitle)
+     
 
         console.log('full review text: ', fullReviewText)
-        return { review: fullReviewText, length: fullReviewText.length, poster: posterUrl };
+        return { review: fullReviewText, length: fullReviewText.length, title: movieTitle };
     } catch (error) {
         console.error(`Error fetching full review: ${error.message}`);
         return { review: '', length: 0 };
@@ -151,7 +153,7 @@ const scrapeAndUpdateData = async () => {
         let page = 60;
         let allReviews = [];
 
-        while (page < 91) {
+        while (page < 61) {
             const response = await axios.get(`https://letterboxd.com/reviews/popular/this/week/page/${page}`);
             const $ = cheerio.load(response.data);
 
@@ -162,24 +164,25 @@ const scrapeAndUpdateData = async () => {
             for (const element of $('.film-detail-content .body-text.-prose.collapsible-text')) {
                 const reviewText = $(element).text().trim();
                 const dateElement = $(element).closest('.film-detail-content').find('.date a');
-                const reviewMoviePhoto = $('.really-lazy-load.poster.film-poster.film-poster-648869.linked-film-poster img');
-
-               const posterUrl = reviewMoviePhoto.attr('src');
+                const movieTitleElement = $(element).closest('.film-detail-content').find('.headline-2.prettify a')
+                const movieTitle = movieTitleElement.text().trim().slice(0, movieTitleElement.text().trim().length-4);
+        
                 // console.log('date element: ', dateElement)
                 console.log(reviewText)
-                console.log('reviewmoviephoto: ', reviewMoviePhoto)
-                console.log('poster url: ', posterUrl)
 
                 if (reviewText.endsWith('...') || reviewText.endsWith('…')) {
                     console.log('The string ends with "..."');
                     // if the review ends with '...', fetch the full review text using the date's href
+                    
+                    
+                    console.log('movie title: ', movieTitle)
                     const reviewUrl = dateElement.attr('href');
                     const fullReview = await fetchFullReview(reviewUrl);
                     reviewPromises.push(fullReview);
 
                 } else {
                     console.log('no button found')
-                    allReviews.push({ review: reviewText, length: reviewText.length, poster: posterUrl});
+                    allReviews.push({ review: reviewText, length: reviewText.length, title: movieTitle});
                     
                 }
             };
@@ -203,7 +206,7 @@ const scrapeAndUpdateData = async () => {
 
         const longestReviews = allReviews
         .sort((a, b) => b.length - a.length) // Sort reviews in descending order by length
-        .slice(0, 10);
+        .slice(0, 20);
 
         return longestReviews;
     } catch (error) {

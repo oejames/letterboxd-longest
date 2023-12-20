@@ -14,12 +14,9 @@ const Home = () => {
           console.log('set response');
           console.log('response: ', response);
           console.log('response data: ', response.data);
-      
-          // Assuming response.data is an object with a property like 'results'
-          const latestResultsArray = response.data.results || [];
+    
       
           setLatestResults(response.data);
-          console.log('latest results array: ', latestResultsArray)
           setLoading(false);
         } catch (error) {
           console.error('Error fetching latest results:', error.message);
@@ -33,7 +30,7 @@ const Home = () => {
     <div>
       <h2 className='weeklong'>This week's longest reviews</h2>
       {loading ? (
-        <p>Loading...</p>
+        <p className='loading-home'>Loading...</p>
       ) : (
         <div className='week-reviews'>
           {/* <h3>This week's longest reviews</h3> */}
