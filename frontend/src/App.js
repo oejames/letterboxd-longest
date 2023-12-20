@@ -27,7 +27,7 @@ function App() {
 
   const navigateToHome = () => {
     setSearchResult(null);
-    // Use the Navigate component to navigate to the home route
+    // navigate to the home route
     return <Navigate to="/" />;
   };
 
