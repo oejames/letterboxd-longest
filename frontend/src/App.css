@@ -51,7 +51,7 @@ p {
   flex-direction: row;
   /* align-items: center; */
   /* justify-content: center; */
-  font-size: calc(5px + 2vmin);
+  font-size: calc(3px + 2vmin);
   color: white;
   height: 10 px;
   justify-content: space-between;
@@ -61,13 +61,14 @@ p {
 }
 
 header {
-  height: 100px;
+  height: 90px;
   justify-self: left;
 }
 
 header  a {
   color: #fff;
   text-decoration: none;
+  font-family: "TiemposHeadline-Bold";
 }
 
 .App-link {
@@ -84,8 +85,12 @@ header  a {
 }
 
 .weeklong {
-  margin-left: 20px;
+  margin-left: 25px;
+  /* padding-top: 20px; */
   color: #fff;
+  font-family: "TiemposHeadline-Bold";
+  font-size: 50px;
+  margin-left: 30%;
 }
 
 .week-reviews {

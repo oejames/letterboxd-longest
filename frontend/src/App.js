@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState(null);
 
+
   const searchAndFindLongestReview = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/search?query=${query}`);
@@ -20,6 +21,7 @@ function App() {
       const paragraphs = reviewText.split('\n\n');
 
       setSearchResult(paragraphs);
+
     } catch (error) {
       console.error('Error:', error.message);
     }
@@ -37,11 +39,11 @@ function App() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+        <link href="https://db.onlinewebfonts.com/c/171d30888ae4dbce3d0224490887fb87?family=TiemposHeadline-Bold" rel="stylesheet"></link>
       </Helmet>
       <Router>
         <header className="App-header">
           <h1>
-            {/* Link to the home page */}
             <Link to="/" onClick={ navigateToHome}>Letterboxd's Longest Reviews</Link>
           </h1>
           <div className="search-container">
@@ -55,19 +57,16 @@ function App() {
           </div>
         </header>
         <main>
-  {searchResult ? (
-    // Render search results when a query is present
-    <ReviewDisplay paragraphs={searchResult} />
-  ) : (
-    // Render the home page when no query is present
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
-  )}
-</main>
-
-
-        
+          {searchResult ? (
+            // Render search results when a query is present
+            <ReviewDisplay paragraphs={searchResult} />
+          ) : (
+            // Render the home page when no query is present
+            <Routes>
+              <Route path="/" element={<Home />} />
+            </Routes>
+          )}
+      </main>
       </Router>
     </div>
   );

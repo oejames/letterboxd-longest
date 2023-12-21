@@ -23,6 +23,8 @@ app.get('/search', async (req, res) => {
     }
 });
 
+
+// provides the correct url for a user's search, to be used in the 'get longest review' function
 const searchMovie = async (query) => {
     try {
         // const searchUrl = `https://letterboxd.com/search/${encodeURIComponent(query)}/`;
@@ -151,7 +153,7 @@ const scrapeAndUpdateData = async () => {
         let page = 20;
         let allReviews = [];
 
-        while (page < 90) {
+        while (page < 25) {
             const response = await axios.get(`https://letterboxd.com/reviews/popular/this/week/page/${page}`);
             const $ = cheerio.load(response.data);
 
@@ -204,7 +206,7 @@ const scrapeAndUpdateData = async () => {
 
         const longestReviews = allReviews
         .sort((a, b) => b.length - a.length) // Sort reviews in descending order by length
-        .slice(0, 20);
+        .slice(0, 10);
 
         return longestReviews;
     } catch (error) {
