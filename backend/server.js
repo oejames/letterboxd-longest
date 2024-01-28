@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const cron = require('node-cron');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,10 +11,12 @@ app.use(cors());
 
 app.get('/search', async (req, res) => {
     const query = req.query.query;
+    const page = req.query.page; 
+    console.log("page: ", page)
 
     try {
         const movieUrl = await searchMovie(query);
-        const longestReview = await getLongestReview(movieUrl);
+        const longestReview = await getLongestReview(movieUrl, page);
         res.json({ longestReview });
     } catch (error) {
         console.error(error.message);
@@ -26,16 +27,7 @@ app.get('/search', async (req, res) => {
 
 // provides the correct url for a user's search, to be used in the 'get longest review' function
 const searchMovie = async (query) => {
-    try {
-        // const searchUrl = `https://letterboxd.com/search/${encodeURIComponent(query)}/`;
-        // const response = await axios.get(searchUrl);
-        // const $ = cheerio.load(response.data);
-
-        // const movieLink = $('.film-poster a').first().attr('href');
-        // if (!movieLink) {
-        //     throw new Error('Movie not found');
-        // }
-        
+    try {        
         const formattedQuery = query.toLowerCase().replace(/\s+/g, '-').replace(/'/g, '');
 
         const movieUrl = `https://letterboxd.com/film/${encodeURIComponent(formattedQuery)}/reviews/`;
@@ -47,12 +39,14 @@ const searchMovie = async (query) => {
 };
 
 // getting the longest review for a user-specified movie:
-const getLongestReview = async (movieUrl) => {
+const getLongestReview = async (movieUrl, page) => {
     try {
-        let page = 1;
+        // let page = 1; //PAGINATION: Prob get rid of this line
         let allReviews = [];
+        console.log("page: ", page);
 
-        while (true) {
+        // while (page < 3) { //PAGINATION: would probably change this to a for loop that goes 15 or so times
+        for (i = 1; i < 3; i++) {
             const response = await axios.get(`${movieUrl}/by/activity/page/${page}`);
             const $ = cheerio.load(response.data);
 
@@ -139,13 +133,14 @@ const fetchFullReview = async (reviewUrl) => {
 let scrapedData = [];
 
 // getting the reviews that display on the home page
-const scrapeAndUpdateData = async () => {
+const scrapeAndUpdateData = async (page) => {
   try {
     
-        let page = 20;
+        // let page = 20;
         let allReviews = [];
 
-        while (page < 25) {
+        //IF KEEPING THIS JUST AS A FOR LOOP THAT ONLY GOES ONCE, GET RID OF THE LOOP ALTOGETHER!!!!
+        for (i = 1; i < 2; i++) {
             const response = await axios.get(`https://letterboxd.com/reviews/popular/this/week/page/${page}`);
             const $ = cheerio.load(response.data);
 
@@ -198,7 +193,7 @@ const scrapeAndUpdateData = async () => {
 
         const longestReviews = allReviews
         .sort((a, b) => b.length - a.length) // Sort reviews in descending order by length
-        .slice(0, 10);
+        .slice(0, 5);
 
         return longestReviews;
     } catch (error) {
@@ -213,9 +208,11 @@ const scrapeAndUpdateData = async () => {
 
 // API endpoint to get the latest scraped data
 app.get('/api/latest-results', async (req, res) => {
-    try {
+    const page = req.query.page;
+    
+    try {      
       // Wait for the scraping to finish
-      scrapedData = await scrapeAndUpdateData();
+      scrapedData = await scrapeAndUpdateData(page);
       console.log('done scraping main');
       console.log('scraped data: ', scrapedData);
       res.json(scrapedData);

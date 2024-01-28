@@ -10,28 +10,40 @@ import './App.css';
 function App() {
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
 
-  const searchAndFindLongestReview = async () => {
+  const searchAndFindLongestReview = async (page=1) => {
     try {
-      const response = await axios.get(`http://localhost:3001/search?query=${query}`);
+      const pageNumber = parseInt(page, 10)
+      const response = await axios.get(`http://localhost:3001/search?query=${query}&page=${pageNumber}`);
       const reviewText = response.data.longestReview.review;
 
       // splitting the review text by lines
       const paragraphs = reviewText.split('\n\n');
 
       setSearchResult(paragraphs);
+      setCurrentPage(page);
 
     } catch (error) {
       console.error('Error:', error.message);
     }
   };
 
+  const handlePagination = () => {
+    console.log("handle pagination");
+    const updatedPage = currentPage + 3;
+    setCurrentPage(updatedPage);
+    searchAndFindLongestReview(updatedPage);
+   
+  }
+
   const navigateToHome = () => {
     setSearchResult(null);
     // navigate to the home route
     return <Navigate to="/" />;
   };
+
 
   return (
     <div className="App">
@@ -53,10 +65,13 @@ function App() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <button onClick={searchAndFindLongestReview}>Search</button>
+            <button onClick={() => searchAndFindLongestReview(1)}>Search</button>
           </div>
         </header>
-        <main>
+        <main className='explainer'>
+          <p><b>
+            {/* Search a movie to find the longest review from its first few pages of reviews. Hit "Load More Reviews" to find the longest review out of the next set of review pages. */}
+            </b></p>
           {searchResult ? (
             // Render search results when a query is present
             <ReviewDisplay paragraphs={searchResult} />
@@ -65,6 +80,13 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
             </Routes>
+          )}
+
+          {searchResult && (
+            <div className='pagination'>
+              <button onClick={handlePagination}>Load More Reviews</button>
+            </div>
+
           )}
       </main>
       </Router>

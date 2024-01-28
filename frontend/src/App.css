@@ -103,3 +103,15 @@ header  a {
   margin-left: 20px;
   margin-top: 5%;
 }
+
+.explainer {
+  margin-left: auto;
+}
+
+.next-button {
+  margin-left: 60px;
+  margin-right: 60px;
+  /* height: 60%; */
+  display: flex;
+  align-self: center;
+}

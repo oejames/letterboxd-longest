@@ -3,28 +3,31 @@ import axios from 'axios';
 import ReviewPage from './ReviewPage/ReviewPage';
 
 const Home = () => {
-  const [latestResults, setLatestResults] = useState([]);
+  const [allResults, setAllResults] = useState([]);
+  const [currentPage, setCurrentPage] = useState(15);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchLatestResults = async () => {
-        try {
-          console.log('starting');
-          const response = await axios.get('http://localhost:3001/api/latest-results');
-          console.log('set response');
-          console.log('response: ', response);
-          console.log('response data: ', response.data);
-    
-      
-          setLatestResults(response.data);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error fetching latest results:', error.message);
-        }
-      };
+  const fetchLatestResults = async (page) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/latest-results?page=${page}`);
+      const newResults = response.data;
 
-    fetchLatestResults();
-  }, []);
+      setAllResults((prevResults) => [...prevResults, ...newResults]);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching latest results:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchLatestResults(currentPage);
+  }, [currentPage]);
+
+  const handlePagination = () => {
+    console.log("handle pagination");
+    const updatedPage = currentPage + 2;
+    setCurrentPage(updatedPage);
+  };
 
   return (
     <div>
@@ -33,13 +36,10 @@ const Home = () => {
         <p className='loading-home'>Loading...</p>
       ) : (
         <div className='week-reviews'>
-          {/* <h3>This week's longest reviews</h3> */}
-          
-            {/* Display some basic information for debugging */}
-            {latestResults.map((result, index) => (
-              <div>{ReviewPage(result)}</div>
-            ))}
-          
+          {allResults.map((result, index) => (
+            <div key={index}>{ReviewPage(result)}</div>
+          ))}
+          <button className="next-button" onClick={handlePagination}>Next</button>
         </div>
       )}
     </div>
