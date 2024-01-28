@@ -108,13 +108,6 @@ const getLongestReview = async (movieUrl) => {
 };
 
 
-
-
-
-
-
-
-
 //if there was a 'more' button for the review, navigate to the full review url and get the review from there
 const fetchFullReview = async (reviewUrl) => {
     try {
@@ -139,7 +132,6 @@ const fetchFullReview = async (reviewUrl) => {
         return { review: '', length: 0 };
     }
 };
-
 
 
 
@@ -212,8 +204,6 @@ const scrapeAndUpdateData = async () => {
     } catch (error) {
         throw new Error(`Error getting reviews: ${error.message}`);
     }
-
-
 };
 
 // Schedule the job to run every minute for demonstration purposes
