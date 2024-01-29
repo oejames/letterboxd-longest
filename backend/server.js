@@ -151,8 +151,8 @@ const scrapeAndUpdateData = async (page) => {
   try {
         let allReviews = [];
 
-        //IF KEEPING THIS JUST AS A FOR LOOP THAT ONLY GOES ONCE, GET RID OF THE LOOP ALTOGETHER!!!!
-        for (i = 1; i < 2; i++) {
+        
+        for (i = 1; i < 3; i++) {
             const response = await axios.get(`https://letterboxd.com/reviews/popular/this/week/page/${page}`);
             const $ = cheerio.load(response.data);
             const reviewPromises = [];
