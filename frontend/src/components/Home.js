@@ -24,7 +24,6 @@ const Home = () => {
   }, [currentPage]);
 
   const handlePagination = () => {
-    console.log("handle pagination");
     const updatedPage = currentPage + 2;
     setCurrentPage(updatedPage);
   };

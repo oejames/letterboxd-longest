@@ -1,7 +1,7 @@
 import React from 'react';
 import './ReviewPage.css';
 
-function ReviewPage(result) {
+const ReviewPage = (result) => {
     return (
         <div>
             <div className='review'> 

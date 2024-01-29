@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
 import ReviewDisplay from './components/ReviewDisplay';
 import Home from './components/Home';
-
 import './App.css';
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
 
-  const searchAndFindLongestReview = async (page=1) => {
+  const searchAndFindLongestReview = async (page = 1) => {
     try {
       const pageNumber = parseInt(page, 10)
       const response = await axios.get(`http://localhost:3001/search?query=${query}&page=${pageNumber}`);
@@ -31,16 +30,13 @@ function App() {
   };
 
   const handlePagination = () => {
-    console.log("handle pagination");
     const updatedPage = currentPage + 3;
     setCurrentPage(updatedPage);
     searchAndFindLongestReview(updatedPage);
-   
   }
 
   const navigateToHome = () => {
     setSearchResult(null);
-    // navigate to the home route
     return <Navigate to="/" />;
   };
 
@@ -68,15 +64,10 @@ function App() {
             <button onClick={() => searchAndFindLongestReview(1)}>Search</button>
           </div>
         </header>
-        <main className='explainer'>
-          <p><b>
-            {/* Search a movie to find the longest review from its first few pages of reviews. Hit "Load More Reviews" to find the longest review out of the next set of review pages. */}
-            </b></p>
+        <main>
           {searchResult ? (
-            // Render search results when a query is present
             <ReviewDisplay paragraphs={searchResult} />
           ) : (
-            // Render the home page when no query is present
             <Routes>
               <Route path="/" element={<Home />} />
             </Routes>
@@ -84,7 +75,7 @@ function App() {
 
           {searchResult && (
             <div className='pagination'>
-              <button onClick={handlePagination}>Load More Reviews</button>
+              {/* <button onClick={handlePagination}>Load More Reviews</button> */}
             </div>
 
           )}

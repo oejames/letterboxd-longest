@@ -46,11 +46,8 @@ p {
   position: sticky;
   top: 0;
   z-index: 100;
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
-  /* justify-content: center; */
   font-size: calc(3px + 2vmin);
   color: white;
   height: 10 px;
@@ -86,7 +83,6 @@ header  a {
 
 .weeklong {
   margin-left: 25px;
-  /* padding-top: 20px; */
   color: #fff;
   font-family: "TiemposHeadline-Bold";
   font-size: 50px;
@@ -96,7 +92,6 @@ header  a {
 .week-reviews {
   display: flex;
   overflow-x: auto;
-  /* margin-right: 50px; */
 }
 
 .loading-home {
@@ -111,7 +106,6 @@ header  a {
 .next-button {
   margin-left: 60px;
   margin-right: 60px;
-  /* height: 60%; */
   display: flex;
   align-self: center;
 }
